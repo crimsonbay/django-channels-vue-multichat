@@ -34,23 +34,23 @@
     // after creation( после создания)
     created: function () {
       // check token( проверяем токен)
-      this.$store.dispatch('checkToken');
+      this.$store.dispatch('checkToken')
     },
     methods: {
       // clicking on Logout erases their storage token
       // (нажатие на Logout стирает токен их хранилища)
       logoutClick: function () {
-        this.$store.dispatch('clearToken');
+        this.$store.dispatch('clearToken')
       },
 
       // clicking on Login causes the token to be set in the store by name and password
       // (нажатие на Login вызывает установку токена в хранилище по имени и паролю)
       loginClick: function () {
-        var name = this.$refs.inputLogin.value;
-        var password = this.$refs.inputPassword.value;
-        this.$store.dispatch('setToken', {name: name, password: password});
-        this.$refs.inputLogin.value = '';
-        this.$refs.inputPassword.value = '';
+        var name = this.$refs.inputLogin.value
+        var password = this.$refs.inputPassword.value
+        this.$store.dispatch('setToken', {name: name, password: password})
+        this.$refs.inputLogin.value = ''
+        this.$refs.inputPassword.value = ''
       },
     },
   }

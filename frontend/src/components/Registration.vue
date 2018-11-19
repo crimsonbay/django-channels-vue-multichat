@@ -39,13 +39,13 @@
         }
         else {
           return '(passwords do not match( пароли не совпадают))'
-        };
+        }
       },
     },
     // after creation( после создания)
     created: function () {
       // change the name of the open page in the repository( меняем имя открытой страницы в хранилище)
-      this.$store.dispatch('setPageName', {pageName: this.name});
+      this.$store.dispatch('setPageName', {pageName: this.name})
     },
     methods: {
       // channel name validation( валидация имени чата)
@@ -53,7 +53,7 @@
         let pattern = /^[a-z0-9]+$/i
         if (!pattern.test(channelName)) {
           this.message = 'Only Latin letters and numbers are possible in login!( В login возможны только латинские буквы и цифры!)'
-          this.$refs.inputLogin.value = '';
+          this.$refs.inputLogin.value = ''
           return false
         } else {
           return true
@@ -62,9 +62,9 @@
 
       // clicking on Registration button( нажатие кнопки регистрации)
       registerClick: function () {
-        let name = this.$refs.inputName.value;
-        let login = this.$refs.inputLogin.value;
-        let that = this;
+        let name = this.$refs.inputName.value
+        let login = this.$refs.inputLogin.value
+        let that = this
         if (!this.loginValidation(login)) {
           return
         }
@@ -72,25 +72,25 @@
           fetchAddUser(login, name, this.pass1)
             .then(function(obj){
               if (obj.status == 400) {
-                let err = obj.body['error'];
+                let err = obj.body['error']
                 switch(err) {
                   case 'UNIQUE constraint failed: auth_user.username':
-                    that.$refs.inputLogin.value = '';
-                    that.message = 'This login already exists, try another( Такой login уже существует, попробуйте другой)';
-                    break;
+                    that.$refs.inputLogin.value = ''
+                    that.message = 'This login already exists, try another( Такой login уже существует, попробуйте другой)'
+                    break
                   default:
-                    that.message = 'Unknown error!( Неизвестная ошибка!)';
-                };
+                    that.message = 'Unknown error!( Неизвестная ошибка!)'
+                }
               }
               else if (obj.status = 200) {
-                that.$refs.inputLogin.value = '';
-                that.$refs.inputName.value = '';
-                that.$refs.inputPass1.value = '';
-                that.$refs.inputPass2.value = '';
-                that.message = 'You have successfully registered!( Вы успешно зарегистрировались!)';
+                that.$refs.inputLogin.value = ''
+                that.$refs.inputName.value = ''
+                that.$refs.inputPass1.value = ''
+                that.$refs.inputPass2.value = ''
+                that.message = 'You have successfully registered!( Вы успешно зарегистрировались!)'
               }
               return obj
-          }).catch(console.error.bind(console));
+          }).catch(console.error.bind(console))
         }
         else if ( name == '') {
           this.message = 'Name field cannot be left blank.( Поле Имя не может оставаться пустым)'

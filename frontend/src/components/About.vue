@@ -24,7 +24,7 @@
     // after creation( после создания)
     created: function () {
       // change the name of the open page in the repository( меняем имя открытой страницы в хранилище)
-      this.$store.dispatch('setPageName', {pageName: this.name});
+      this.$store.dispatch('setPageName', {pageName: this.name})
     }
   }
 </script>

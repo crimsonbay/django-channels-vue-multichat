@@ -56,35 +56,35 @@ export default {
   computed: {
     // user token from store( токен пользователя из store)
     tokenStore() {
-      return this.$store.getters.TOKEN;
+      return this.$store.getters.TOKEN
     },
     // user first_name from store( first_name пользователя из store)
     firstNameStore() {
-      return this.$store.getters.FIRST_NAME;
+      return this.$store.getters.FIRST_NAME
     },
 
   },
   // after creation( после создания)
   created: function () {
     // меняем имя открытой страницы в хранилище
-    this.$store.dispatch('setPageName', {pageName: this.name});
+    this.$store.dispatch('setPageName', {pageName: this.name})
     // request open user chats( запрашиваем открыте чаты пользователя)
-    this.getСhats();
+    this.getChats()
 
     },
   // when updating, scroll the chat page down( при обновлении скроллим страницу чата вниз)
   updated () {
-    this.$refs.chat.scrollTop = this.$refs.chat.scrollHeight;
+    this.$refs.chat.scrollTop = this.$refs.chat.scrollHeight
   },
   methods: {
     // check by name if there is already a chat in the chat list( проверяем по имени, есть ли уже чат в списке чатов)
     chatInChats: function (chatName) {
-      let repeat = false;
+      let repeat = false
       for (var i in this.chats) {
         if (this.chats[i].chatname == chatName) {
           return true
         }
-      };
+      }
       return false
     },
 
@@ -103,7 +103,7 @@ export default {
     // click Enter button (or enter) to add / enter the channel
     // ( нажата кнопка( или enter) добавления/вхождения на канал)
     addChannelClick: function () {
-      let channelName = this.$refs.channelInput.value;
+      let channelName = this.$refs.channelInput.value
       if (!this.channelNameValidation(channelName)) {
         return
       }
@@ -112,7 +112,7 @@ export default {
         this.createSocket(channelName)
         this.activeChat = channelName
         if (!this.chatInChats(channelName)) {
-          let chat = {};
+          let chat = {}
           chat.chatname = channelName
           this.chats.push(chat)
         }
@@ -124,28 +124,28 @@ export default {
       // if not Anonymous, remove the user from the members of the chat on the backend
       // (если не Аноним, удаляем пользователя из members чата на бэке)
       if (this.firstNameStore != 'Anonymous') {
-        this.deleteChat(this.chats[i].chatname);
-      };
+        this.deleteChat(this.chats[i].chatname)
+      }
       if (this.chats[i].chatname === this.activeChat) {
         if (i == (this.chats.length-1)) {
           if (i>0) {
-            this.activeChat = this.chats[i-1].chatname;
-            this.chats.splice(i,1);
+            this.activeChat = this.chats[i-1].chatname
+            this.chats.splice(i,1)
           }
           else {
-            this.activeChat = '';
-            this.chats = [];
+            this.activeChat = ''
+            this.chats = []
             return 0
           }
         }
         else {
-          this.activeChat = this.chats[i+1].chatname;
-          this.chats.splice(i,1);
+          this.activeChat = this.chats[i+1].chatname
+          this.chats.splice(i,1)
         }
-        this.messagesRecieve(this.activeChat);
+        this.messagesRecieve(this.activeChat)
       }
       else {
-        this.chats.splice(i,1);
+        this.chats.splice(i,1)
       }
       return 0
     },
@@ -157,12 +157,12 @@ export default {
 
     // send message via socket( отправить сообщение через сокет)
     postMessage: function () {
-      let textMessage = this.$refs.textInput.value;
+      let textMessage = this.$refs.textInput.value
       this.chatSocket.send(JSON.stringify({
         'message': textMessage,
         'type': 'text',
-      }));
-      this.$refs.textInput.value = '';
+      }))
+      this.$refs.textInput.value = ''
     },
 
     // requests open user chats and fills them with chats
@@ -175,45 +175,45 @@ export default {
     // то добавляем его тоже, последний делаем активным
     // вызываем createSocket в случае непустого набора chats для создания сокета активного чата
     // в ней уже произойдет подгрузка истории чата)
-    getСhats: function () {
-      let that = this;
+    getChats: function () {
+      let that = this
       fetchGetUserChats()
         .then(function(obj){
-          //that.activeChat = obj.body[obj.body.length -1].chatname;
+          //that.activeChat = obj.body[obj.body.length -1].chatname
           if (obj.status == 200){
-            that.chats = obj.body;
+            that.chats = obj.body
           }
           else {
-            //that.chats = [];
-          };
-          let addingChatName = sessionStorage.getItem('chatAdd');
+            //that.chats = []
+          }
+          let addingChatName = sessionStorage.getItem('chatAdd')
           if (addingChatName) {
-            sessionStorage.setItem('chatAdd', '');
+            sessionStorage.setItem('chatAdd', '')
             if (!that.chatInChats(addingChatName)) {
-              let addingChat = {};
-              addingChat.chatname = addingChatName;
+              let addingChat = {}
+              addingChat.chatname = addingChatName
               that.chats.push(addingChat)
             }
-          };
+          }
           if (that.chats.length > 0) {
-            that.activeChat = that.chats[that.chats.length - 1].chatname;
-            that.createSocket(that.activeChat);
+            that.activeChat = that.chats[that.chats.length - 1].chatname
+            that.createSocket(that.activeChat)
           }
           return obj
-          }).catch(console.error.bind(console));
+          }).catch(console.error.bind(console))
     },
     // fills data massages[] in the reverse order
     // if a message from an empty user then renames it Anonymous
     // ( заполняет data'ой massages[] в обратном порядке, если сообщение от пустого пользователя
     // то переименовывает его а Anonymous)
     messagesFill: function (data, chatName) {
-      this.messages = data.slice().reverse();
+      this.messages = data.slice().reverse()
       for (var i in this.messages) {
         if (!this.messages[i].user) {
           this.messages[i].user = {first_name: 'Anonymous'}
         }
       }
-      this.activeChat = chatName;
+      this.activeChat = chatName
     },
 
     // get messages by channel name, call messagesFill function filling messages
@@ -232,28 +232,27 @@ export default {
     // creates a socket, loads the history after creation using messagesRecieve and describes how to work with the socket
     // ( создает сокет, подгружает историю после создания при помощи messagesRecieve и описывает работу с сокетом)
     createSocket: function (chatName) {
-      var that = this;
+      var that = this
       if (this.chatSocket != null) {
-        this.chatSocket.close();
+        this.chatSocket.close()
       }
-      ;
       let token = sessionStorage.getItem('token')
       this.chatSocket = newSocket(chatName)
       this.chatSocket.onerror = function (event) {
         that.error = 'Error connecting to the channel! Try a different name.( Ошибка подключения к каналу! Попробуйте другое имя.)'
-        let chatLen = that.chats.length;
-        that.closeClick(chatLen-1);
+        let chatLen = that.chats.length
+        that.closeClick(chatLen-1)
       }
       // request the message history of the opened channel( запрашиваем историю сообщений открывшегося канала)
       this.chatSocket.onopen = function () {
-        that.messagesRecieve(that.activeChat);
-      };
+        that.messagesRecieve(that.activeChat)
+      }
       this.chatSocket.onclose = function (eventclose) {
       }
       this.chatSocket.onmessage = function (msg) {
-        var data = JSON.parse(msg.data);
-        that.messages.push(data);
-      };
+        var data = JSON.parse(msg.data)
+        that.messages.push(data)
+      }
     },
   }
 }

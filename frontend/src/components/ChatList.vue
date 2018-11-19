@@ -13,17 +13,17 @@
     data() {
       return {
         name: 'ChatList', // name to write to the repository of the name of the open page
-                          //( имя для записи в хранилище имени открытой страницы)
+                          // ( имя для записи в хранилище имени открытой страницы)
         chats: [], // chat list( список чатов)
       }
     },
     // after creation( после создания)
     created: function () {
       // change the name of the open page in the repository( меняем имя открытой страницы в хранилище)
-      this.$store.dispatch('setPageName', {pageName: this.name});
+      this.$store.dispatch('setPageName', {pageName: this.name})
       // request a list of non-privileged chats and fill in chats []
       // (запрашиваем список неприватных чатов и заполняем chats[])
-      this.getChatList();
+      this.getChatList()
     },
     methods: {
       // when clicking on the chat link
@@ -37,11 +37,11 @@
       // request a list of non-privileged chats and fill in chats []
       // ( запрашиваем список неприватных чатов и заполняем chats[])
       getChatList: function () {
-        let that = this;
+        let that = this
         fetchGetAllChats()
           .then(function(obj){
-            that.chats = obj.body;
-            return obj.body[obj.body.length -1].chatname;
+            that.chats = obj.body
+            return obj.body[obj.body.length -1].chatname
           }).catch(console.error.bind(console))
       }
     }
