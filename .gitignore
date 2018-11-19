@@ -2,6 +2,7 @@
 __pycache__/
 *.py[cod]
 *$py.class
+pics
 
 # C extensions
 *.so
@@ -102,3 +103,6 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+frontend/webpack.config.js
+frontend/package.json
+frontend/package-lock.json

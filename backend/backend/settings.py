@@ -23,8 +23,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '2=5i(d7c$h^b+ugb$+bf-!7wma$gsy=7@zr7%zrg1xogo!3_of'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-#DEBUG = True
-DEBUG = False
+DEBUG = True
+#DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 #SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
