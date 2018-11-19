@@ -3,6 +3,10 @@ var webpack = require('webpack')
 const ExtractTextPlugin = require("extract-text-webpack-plugin")
 
 module.exports = {
+  devServer: {
+    host: '0.0.0.0',
+    port: '8082'
+  },
   entry: './src/main.js',
   output: {
     path: path.resolve(__dirname, './dist'),
