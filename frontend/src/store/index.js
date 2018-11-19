@@ -8,7 +8,6 @@ import {
   CLEAR_TOKEN,
   SET_PAGE_NAME
 } from './mutation-types.js'
-import { serverAddr } from '../config'
 import { fetchCheckToken, fetchAPITokenAuth } from '../api'
 
 Vue.use(Vuex)
